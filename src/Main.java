@@ -31,6 +31,10 @@ public class Main extends JFrame {
         panel.add(button1);
 
 
+        // default text is first param and second is how many columns
+        JTextField textField1 = new JTextField("Type here", 15);
+
+        panel.add(textField1);
 
         // add the panel
 
