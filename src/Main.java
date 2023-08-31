@@ -144,6 +144,15 @@ class MyDateClass {
         } catch (ParseException pe) {
             return false;
         }
+
+        String[] parts = s.split("/");
+        int year = Integer.parseInt(parts[2]);
+        // extra check for year
+        if(year > 9999 || year <= 0)
+        {
+            return false;
+        }
+
         return true;
     }
 }
