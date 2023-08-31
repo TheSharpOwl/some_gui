@@ -15,7 +15,6 @@ public class Main extends JFrame {
     JButton sortButton;
     JTextField textField1;
     JTextArea textArea1;
-    int buttonClicked;
 
     List<MyDateClass> dates = new ArrayList<MyDateClass>();
 
@@ -42,20 +41,16 @@ public class Main extends JFrame {
         addButton = new JButton("Add");
         sortButton = new JButton("Sort");
 
-        // hide the button border todo remove
-//        button1.setBorderPainted(false);
-        // remove filling of the button
-//        button1.setContentAreaFilled(false);
-
         panel.add(addButton);
         panel.add(sortButton);
 
 
         // default text is first param and second is how many columns
+        // text field = you can write in it
         textField1 = new JTextField("Type here", 15);
         panel.add(textField1);
 
-        // text area
+        // text area (cannot write in it)
         textArea1 = new JTextArea(15, 22);
         textArea1.setLineWrap(true);
         // Makes sure that words stay intact if a line wrap occurs
@@ -75,7 +70,9 @@ public class Main extends JFrame {
 
     private class ListenForButton implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            // if addButton was clicked (the source of the event)
             if (e.getSource() == addButton) {
+                // if the date format is okay
                 if (MyDateClass.checkFormat(textField1.getText())) {
                     // create an object of MyDateClass
                     MyDateClass date = new MyDateClass(textField1.getText());
@@ -90,6 +87,7 @@ public class Main extends JFrame {
             } else if (e.getSource() == sortButton) {
 
                 // sort using O(n^2)
+                // take element (i) if you got one smaller after it (j) swap
                 for (int i = 0; i < dates.size(); i++) {
                     for (int j = i + 1; j < dates.size(); j++) {
                         if (dates.get(i).year > dates.get(j).year) {
@@ -101,7 +99,7 @@ public class Main extends JFrame {
                 }
             }
 
-            //clear the text area always
+            // clear the text area always
             textArea1.setText("");
             // then fill it with the current list of dates we have (always if we add or sort or do nothing)
             for (
@@ -125,10 +123,11 @@ class MyDateClass {
     int year;
 
     MyDateClass(String s) {
+        // here we are sure it's correct format cause we check before creation
         String[] parts = s.split("/"); // split it into 3 strings (one for dd, one for MM and one for yyyy)
-        day = Integer.parseInt(parts[0]);
-        month = Integer.parseInt(parts[1]);
-        year = Integer.parseInt(parts[2]);
+        this.day = Integer.parseInt(parts[0]);
+        this.month = Integer.parseInt(parts[1]);
+        this.year = Integer.parseInt(parts[2]);
     }
 
     public String toString() {
@@ -138,6 +137,7 @@ class MyDateClass {
 
     public static boolean checkFormat(String s) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        // match it precisely
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(s.trim());
